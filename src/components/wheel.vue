@@ -3,21 +3,6 @@
     position: relative;
   }
 
-  .overlay {
-    opacity: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
-    transform: translateX(-100%);
-    background: url('../assets/xmas2019-bg.png')no-repeat center center;
-    background-size: cover;
-    z-index: 5;
-  }
-
   .wheel__greeting {
     display: block;
     min-height: 400px;
@@ -25,7 +10,9 @@
     padding-top: 54px;
 
     h3 {
-      font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+      font-family: 'Medula One', 'Open Sans', Arial, Helvetica, sans-serif;
+      font-size: 42px;
+      letter-spacing: .75;
     }
   }
 
@@ -101,12 +88,68 @@
     transform: translateY(16px);
   }
 
+  .overlay {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    padding: 32px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    transform: translateX(-100%);
+    background: url('../assets/xmas2019-bg.png')no-repeat center center;
+    background-size: cover;
+    z-index: 5;
+
+    &__card {
+      background: #fff;
+      border: 12px solid #58bb97;
+      border-radius: 6px;
+      box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+      width: 100%;
+      max-width: 600px;
+      height: 600px;
+      text-align: center;
+
+      opacity: 0;
+      transform: translateY(42px);
+
+      &-headline {
+        font-family: 'Medula One', 'Open Sans', Arial, Helvetica, sans-serif;
+        font-size: 32px;
+        letter-spacing: .75;
+        margin-top: 54px;
+      }
+
+      &-greeting {
+        margin: 24px 0 36px;
+      }
+    }
+  }
+
 </style>
 
 <template>
   <main class="layout">
 
-    <div class="overlay"></div>
+    <div class="overlay">
+      <div class="overlay__card">
+        <div class="overlay__card-header">
+          <h3 class="overlay__card-headline"></h3>
+          <h2 class="overlay__card-greeting"></h2>
+        </div>
+        <div class="overlay__card-icon-container">
+          <img src="" class="overlay__card-icon" alt="icon">
+        </div>
+      </div>
+    </div>
 
     <div class="wheel">
       <div class="wheel__greeting">
@@ -122,20 +165,13 @@
       </div>
 
       <div class="wheel__container">
-        <!-- <svg class="wheel__device" id="wheel" version="1.1"
-            xmlns="http://www.w3.org/2000/svg" xmlns:xlink= "http://www.w3.org/1999/xlink">
-          <image xlink:href="../assets/xmas-wheel.png" x="0" y="0" />
-        </svg> -->
+
         <img src="../assets/xmas-wheel.png" class="wheel__device" id="wheel">
 
         <div class="wheel__arrow" id="arrow">
           <span>SPIN</span>
         </div>
 
-        <!-- <svg class="wheel__arrow" id="arrow" width="122" height="77" version="1.1"
-            xmlns="http://www.w3.org/2000/svg" xmlns:xlink= "http://www.w3.org/1999/xlink">
-          <image xlink:href="https://s3-us-west-2.amazonaws.com/s.cdpn.io/106114/pin-1.png" x="0" y="0" height="77px" width="122px"/>
-        </svg> -->
       </div>
     </div>
   </main>
@@ -145,6 +181,7 @@
   import $ from "jquery";
   import {TweenMax, TimelineMax} from 'gsap'
   import Draggable from 'gsap/Draggable'
+  import {greetings} from './data/greetings.js'
 
   export default {
     name: 'wheel',
@@ -154,83 +191,17 @@
       }
     },
     mounted: function() {
-      var wheel = $('#wheel');
-      var arrow = $('#arrow');
-      var info = $("#info");
+      const wheel = $('#wheel');
+      const arrow = $('#arrow');
+      const info = $("#info");
       
-      var numItems = 8;
-      var arc = 360 / numItems;
-      
+      let numItems = 8;
+      let arc = 360 / numItems;
+
       TweenMax.set(wheel, { rotation: 360 });
 
-      var greetings = [
-        {
-          text: 'Merry Christmas',
-          image: 'static/images/logo.png'
-        },
-        {
-          text: 'Happy Holidays',
-          image: 'static/images/icon-fpo.png'
-        },
-        {
-          text: 'Yule Time Cheer',
-          image: 'static/images/logo.png'
-        },
-        {
-          text: 'All the best',
-          image: 'static/images/icon-fpo.png'
-        },
-        {
-          text: 'Best wishes',
-          image: 'static/images/logo.png'
-        },
-        {
-          text: 'Warmest wishes',
-          image: 'static/images/icon-fpo.png'
-        },
-        {
-          text: 'Chistmas Greetings',
-          image: 'static/images/logo.png'
-        },
-        {
-          text: 'Cherrs to the New Year',
-          image: 'static/images/icon-fpo.png'
-        }
-      ];
+      this._introAnim();
 
-      const introTl = new TimelineMax({paused: true});
-
-      introTl.staggerTo($('.intro-text'), 0.6, {
-        y: 0,
-        opacity: 1,
-        ease: Back.easeOut
-      }, 0.075)
-
-      introTl.play();
-
-      // setTimeout(() => {
-      //   introTl.reverse();
-      // }, 2000)
-
-      TweenMax.to(introTl, 2, { 
-          onComplete: () => {
-            introTl.reverse();
-            TweenMax.to($('.wheel__greeting--after'), 0.6, {
-              y: 0,
-              delay: 1.25,
-              opacity: 1,
-              ease: Power4.easeOut
-            })
-          }
-        })
-
-
-      // TweenMax.staggerTo($('.intro-text'), 0.4, {
-      //   y: 0,
-      //   opacity: 1,
-      //   ease: Back.easeOut
-      // }, 0.25)
-      
       arrow.on('click', () => {
 
         arrow.attr('data-spinning', 'is-spinning');
@@ -244,55 +215,93 @@
           }
         });
 
-        var random = Math.floor(Math.random() * 800) + 600;
-        var tl = new TimelineMax();
+        let random = Math.floor(Math.random() * 800) + 600;
+        let spinningTl = new TimelineMax();
 
-        tl.to(wheel, 7, { 
+        spinningTl.to(wheel, 7, { 
           rotation: "+=" + random, 
           ease: Back.easeOut.config(1) 
-        })
+        });
 
-        TweenMax.to(tl, 3, { 
+        TweenMax.to(spinningTl, 3.25, { 
           onComplete: () => {
             console.log('hide result view now')
-            // TweenMax.to(info, 0.6, {
-            //   opacity: 0,
-            // })
+            TweenMax.to(info, .5, {
+              opacity: 0,
+            })
           }
         })
 
-        TweenMax.to(tl, 4, {
-          timeScale:0, 
+        TweenMax.to(spinningTl, 4, {
+          timeScale: 0, 
           ease: Power1.easeOut, 
-          delay: 3, 
           onComplete: () => {
             console.log('has ended')
 
             arrow.removeClass('disable-events');
-            // arrow.trigger('click');
 
-            TweenMax.to($('.overlay'), 0.6, {
-              opacity: 1,
-              x: 0,
-              ease: Power4.easeOut
-            })
+            this._revealGreetingOverlay();
           } 
         })
 
       })
       
-      TweenMax.ticker.addEventListener("tick", update);
+      TweenMax.ticker.addEventListener('tick', update);
       
       function update() {
         
-        var rotation = wheel[0]._gsTransform.rotation;     
-        var angle = rotation - 360 * Math.floor(rotation / 360);     
-        var index = Math.floor((360 - angle) / arc) % greetings.length;    
-        var greeting = greetings[index].text;
+        let rotation = wheel[0]._gsTransform.rotation;     
+        let angle = rotation - 360 * Math.floor(rotation / 360);     
+        let index = Math.floor((360 - angle) / arc) % greetings.length;    
+        let greeting = greetings[index].text;
         
         info.html(greeting);
-        // $('#icon').attr('src', greetingz[index].image);
+        $('.overlay__card-headline').html(greetings[index].heading)
+        $('.overlay__card-greeting').html(greeting);
+        $('.overlay__card-icon').attr('src', greetings[index].image);
+        
       }
+    },
+    methods: {
+      _introAnim: function() {
+        const introTl = new TimelineMax({paused: true});
+
+        introTl.staggerTo($('.intro-text'), 0.6, {
+          y: 0,
+          opacity: 1,
+          ease: Back.easeOut
+        }, 0.075)
+
+        introTl.play();
+
+        TweenMax.to(introTl, 2, { 
+          onComplete: () => {
+
+            introTl.reverse();
+
+            TweenMax.to($('.wheel__greeting--after'), 0.6, {
+              y: 0,
+              delay: 1.25,
+              opacity: 1,
+              ease: Power4.easeOut
+            })
+          }
+        });
+      },
+      _revealGreetingOverlay: function() {
+        TweenMax.to($('.overlay'), 0.6, {
+          opacity: 1,
+          x: 0,
+          ease: Power4.easeOut,
+          onComplete: () => {
+            TweenMax.to($('.overlay__card'), 0.3, {
+              opacity: 1,
+              y: 0,
+              ease: Back.easeOut
+            });
+          }
+        });
+      },
     },
   }
 </script>
