@@ -1,4 +1,4 @@
-const atsLoadImages = (a, d, z) => {
+const xmasLoadImages = (a, d, z) => {
   a instanceof Array || (a = [a]);
   for (var e = a.length, f = 0, g = e; g--;) {
     let b = document.createElement('img');
@@ -15,4 +15,4 @@ let isFunction = (functionToCheck) => {
   return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
 }
 
-export {atsLoadImages}
+export {xmasLoadImages}

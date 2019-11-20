@@ -7,12 +7,16 @@
     display: block;
     min-height: 400px;
     text-align: center;
-    padding-top: 54px;
+    padding-top: 32px;
 
     h3 {
       font-family: 'Medula One', 'Open Sans', Arial, Helvetica, sans-serif;
+      font-size: 32px;
+      letter-spacing: .75 !important;
+    }
+
+    h2 {
       font-size: 42px;
-      letter-spacing: .75;
     }
   }
 
@@ -55,7 +59,7 @@
 
   .wheel__arrow span {
     color: #ef7561;
-    font-family: 'Mountains of Christmas', 'Open Sans', cursive;
+    font-family: 'Medula One', 'Open Sans', Arial, Helvetica, sans-serif;
     font-size: 18px;
     font-weight: 700;
     letter-spacing: 1px;
@@ -75,12 +79,15 @@
 
   #info {
     opacity: 0;
+    margin-top: 12px;
   }
 
   .intro-text {
+    font-size: 42px !important;
     display: inline-block;
     opacity: 0;
     transform: translateY(16px);
+    line-height: 1;
   }
 
   .wheel__greeting--after {
@@ -124,12 +131,61 @@
       &-headline {
         font-family: 'Medula One', 'Open Sans', Arial, Helvetica, sans-serif;
         font-size: 32px;
+        line-height: 1.25;
         letter-spacing: .75;
         margin-top: 54px;
       }
 
       &-greeting {
-        margin: 24px 0 36px;
+        margin: 12px 0 36px;
+      }
+    }
+
+    &__cta {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+
+      a {
+        -moz-osx-font-smoothing: grayscale;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        background-color: #ef7561;
+        border: none;
+        border-radius: 25px;
+        box-sizing: border-box;
+        color: #fff;
+        cursor: pointer;
+        display: inline-block;
+        font-family: 'Medula One', 'Open Sans', Arial, Helvetica, sans-serif;
+        font-size: 18px;
+        font-weight: 500;
+        height: auto;
+        line-height: 1;
+        letter-spacing: .75px;
+        margin: 8px 0;
+        padding: 15px 24px;
+        text-decoration: none;
+        transition: color .15s linear, background-color .15s linear;
+        vertical-align: middle;
+
+        &:hover {
+          background-color: #b6534c;
+          border: 0;
+          outline: 0;
+        }
+
+        &:focus {
+          border: 0;
+          outline: 0;
+        }
+
+        @media (min-width: 900px) {
+          font-size: 22px;
+          letter-spacing: .75px;
+          padding: 17px 24px;
+        }
       }
     }
   }
@@ -145,8 +201,13 @@
           <h3 class="overlay__card-headline"></h3>
           <h2 class="overlay__card-greeting"></h2>
         </div>
+
         <div class="overlay__card-icon-container">
           <img src="" class="overlay__card-icon" alt="icon">
+        </div>
+
+        <div class="overlay__cta">
+          <a href="/">Spin Again</a>
         </div>
       </div>
     </div>
@@ -261,6 +322,9 @@
         $('.overlay__card-icon').attr('src', greetings[index].image);
         
       }
+
+      this._onResize();
+
     },
     methods: {
       _introAnim: function() {
@@ -302,6 +366,15 @@
           }
         });
       },
+      _onResize: function() {
+        $( window ).resize(() => {
+          $('.wheel__device').css({
+            'left': '50%', 
+            'top': '50%',
+            'transform': 'translate(-50%, -50%)'
+          });
+        });
+      }
     },
   }
 </script>
