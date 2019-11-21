@@ -32,6 +32,7 @@
     background-repeat: none;
     background-size: cover;
     background-position: center center;
+    box-sizing: border-box;
     color: #202124;
     cursor: auto;
     font-family: 'Open Sans', Arial, Helvetica, sans-serif;
@@ -41,7 +42,7 @@
     line-height: 1.444;
     margin: 0;
     overflow-x: hidden;
-    padding: 0;
+    padding: 16px;
     position: relative;
     overflow-wrap: break-word;
     word-wrap: break-word;

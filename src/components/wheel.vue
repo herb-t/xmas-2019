@@ -4,13 +4,23 @@
   }
 
   .wheel__greeting {
+    position: relative;
     display: block;
     min-height: 400px;
     text-align: center;
     padding-top: 32px;
 
+    &--initial,
+    &--after {
+      position: absolute;
+      top: 54px;
+      left: 0;
+      width: 100%;
+    }
+
     h3 {
-      font-family: 'Medula One', 'Open Sans', Arial, Helvetica, sans-serif;
+      font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+      // font-size: 24px;
       font-size: 32px;
       letter-spacing: .75 !important;
     }
@@ -59,10 +69,10 @@
 
   .wheel__arrow span {
     color: #ef7561;
-    font-family: 'Medula One', 'Open Sans', Arial, Helvetica, sans-serif;
-    font-size: 18px;
+    font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+    font-size: 16px;
     font-weight: 700;
-    letter-spacing: 1px;
+    letter-spacing: -.25px;
     display: table-cell;
     width: 100%;
     height: 100%;
@@ -83,7 +93,7 @@
   }
 
   .intro-text {
-    font-size: 42px !important;
+    // font-size: 42px !important;
     display: inline-block;
     opacity: 0;
     transform: translateY(16px);
@@ -129,7 +139,7 @@
       transform: translateY(42px);
 
       &-headline {
-        font-family: 'Medula One', 'Open Sans', Arial, Helvetica, sans-serif;
+        font-family: 'Open Sans', Arial, Helvetica, sans-serif;
         font-size: 32px;
         line-height: 1.25;
         letter-spacing: .75;
@@ -158,8 +168,8 @@
         color: #fff;
         cursor: pointer;
         display: inline-block;
-        font-family: 'Medula One', 'Open Sans', Arial, Helvetica, sans-serif;
-        font-size: 18px;
+        font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+        font-size: 16px;
         font-weight: 500;
         height: auto;
         line-height: 1;
@@ -171,7 +181,7 @@
         vertical-align: middle;
 
         &:hover {
-          background-color: #b6534c;
+          background-color: darken(#ef7561, 10);
           border: 0;
           outline: 0;
         }
@@ -182,7 +192,7 @@
         }
 
         @media (min-width: 900px) {
-          font-size: 22px;
+          font-size: 18px;
           letter-spacing: .75px;
           padding: 17px 24px;
         }
@@ -207,7 +217,7 @@
         </div>
 
         <div class="overlay__cta">
-          <a href="/">Spin Again</a>
+          <a href="/">Spin again</a>
         </div>
       </div>
     </div>
